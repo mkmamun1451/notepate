@@ -1,5 +1,6 @@
 package com.example.notepateapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.arch.core.internal.SafeIterableMap;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -62,17 +67,16 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
         firestore = FirebaseFirestore.getInstance();
 
 
-
         fbttun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NoteActivity.this,CreateNote.class));
+                startActivity(new Intent(NoteActivity.this, CreateNote.class));
             }
         });
 
 
-        Query query = firestore.collection("notes").document(user.getUid()).collection("myNotes").orderBy("title",Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions<modelclass>options = new FirestoreRecyclerOptions.Builder<modelclass>().setQuery(query,modelclass.class).build();
+        Query query = firestore.collection("notes").document(user.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
+        FirestoreRecyclerOptions<modelclass> options = new FirestoreRecyclerOptions.Builder<modelclass>().setQuery(query, modelclass.class).build();
         adapter = new FirestoreRecyclerAdapter<modelclass, NoteViewHolder>(options) {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -81,25 +85,23 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 ImageView popubutton = noteViewHolder.itemView.findViewById(R.id.menupopbttn);
 
 
-
-
                 int colourcode = getRandomColor();
-                noteViewHolder.mnote.setBackgroundColor(noteViewHolder.itemView.getResources().getColor(colourcode,null));
+                noteViewHolder.mnote.setBackgroundColor(noteViewHolder.itemView.getResources().getColor(colourcode, null));
 
                 noteViewHolder.notetitle.setText(model.getTitle());
                 noteViewHolder.notecontent.setText(model.getContent());
 
 
                 String docId = adapter.getSnapshots().getSnapshot(1).getId();
-                
+
                 noteViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        Intent intent = new Intent(view.getContext(),NoteDetilsActivity.class);
-                        intent.putExtra("title",model.getTitle());
-                        intent.putExtra("content",model.getContent());
-                        intent.putExtra("noetId",docId);
+                        Intent intent = new Intent(view.getContext(), NoteDetilsActivity.class);
+                        intent.putExtra("title", model.getTitle());
+                        intent.putExtra("content", model.getContent());
+                        intent.putExtra("noetId", docId);
                         view.getContext().startActivity(intent);
                         /*Toast.makeText(NoteActivity.this, "This is Clicked", Toast.LENGTH_SHORT).show();*/
                     }
@@ -108,15 +110,15 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 popubutton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        PopupMenu popupMenu = new PopupMenu(view.getContext(),view);
+                        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
                         popupMenu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                Intent intent = new Intent(NoteActivity.this,EditNoteActivity.class);
-                                intent.putExtra("title",model.getTitle());
-                                intent.putExtra("content",model.getContent());
-                                intent.putExtra("noetId",docId);
+                                Intent intent = new Intent(NoteActivity.this, EditNoteActivity.class);
+                                intent.putExtra("title", model.getTitle());
+                                intent.putExtra("content", model.getContent());
+                                intent.putExtra("noetId", docId);
                                 view.getContext().startActivity(intent);
                                 return false;
                             }
@@ -148,33 +150,26 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     }
                 });
 
-
-
-
-
-
-
             }
 
             @NonNull
             @Override
             public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notes_layout,parent,false);
-
                 return new NoteViewHolder(view);
             }
         };
 
 
         recycler = findViewById(R.id.recycler);
-        recycler.setHasFixedSize(true);
-        manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        recycler.setLayoutManager(manager);
+        /*recycler.setHasFixedSize(true);*/
+        /*manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);*/
+        recycler.setLayoutManager(new GridLayoutManager(this,2));
         recycler.setAdapter(adapter);
 
-
-
     }
+
+
 
     private int getRandomColor() {
         List<Integer> colorcode = new ArrayList<>();
@@ -224,6 +219,7 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
             mnote = itemView.findViewById(R.id.note);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu,menu);
@@ -247,13 +243,13 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void onStart() {
         super.onStart();
         adapter.startListening();
-        /*FirebaseAuth.getInstance().addAuthStateListener(this);*/
+        FirebaseAuth.getInstance().addAuthStateListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-       /* FirebaseAuth.getInstance().removeAuthStateListener(this);*/
+        FirebaseAuth.getInstance().removeAuthStateListener(this);
         if (adapter !=null){
             adapter.stopListening();
         }

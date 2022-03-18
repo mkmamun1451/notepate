@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".NoteActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,12 +16,14 @@
         android:layout_margin="20dp"
         android:background="#A1F4Fb"
         android:src="@drawable/ic_add_24"
-        app:maxImageSize="40dp" />
+        app:maxImageSize="60dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="10dp"
         android:scrollbars="vertical" />
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.notepateapplication;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,6 +32,7 @@ public class EditNoteActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     private FirebaseUser user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,9 @@ public class EditNoteActivity extends AppCompatActivity {
         fabttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(EditNoteActivity.this,NoteActivity.class);
+                finish();
+                startActivity(intent);
                 
                 //Toast.makeText(EditNoteActivity.this, "SaveButton Click", Toast.LENGTH_SHORT).show();
                 
@@ -68,18 +74,23 @@ public class EditNoteActivity extends AppCompatActivity {
 
                 }else {
 
-                    DocumentReference reference = firestore.collection("notes");
-                    HashMap<String,Object>note = new HashMap<>();
+
+
+                    DocumentReference reference = firestore.collection("notes").document(user.getUid()).collection("myNotes").document();
+
+                    HashMap<String,Object> note = new HashMap<>();
                     note.put("title",newtitle);
                     note.put("content",newcontent);
                     reference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
+
                             Toast.makeText(EditNoteActivity.this, "Note is Update", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+
                             Toast.makeText(EditNoteActivity.this, "Failed to Update", Toast.LENGTH_SHORT).show();
                         }
                     });

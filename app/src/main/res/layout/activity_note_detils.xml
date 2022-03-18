@@ -26,7 +26,7 @@
         android:id="@+id/contentEtdt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toobftdt"
+        android:layout_below="@+id/dttoolfb"
         android:background="#A38F7171"
         android:gravity="top|left"
         android:hint="Enter Your Note Content"

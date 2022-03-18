@@ -20,7 +20,7 @@ public class NoteDetilsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_detils);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
         titleDet = findViewById(R.id.detittitl);
         contentDet = findViewById(R.id.contentEtdt);
