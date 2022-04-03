@@ -1,8 +1,10 @@
 package com.example.notepateapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -44,8 +47,26 @@ public class SignUpActivity extends AppCompatActivity {
         signbttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
-                startActivity(intent);
+               /* Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
+                startActivity(intent);*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                builder.setTitle("Signing Up");
+                builder.setMessage("Are you sure you Are you sure your Email & Password Correct??");
+                builder.setIcon(R.drawable.ic_turned_in_24);
+                builder.setCancelable(false);
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
 
 
                 String email = emailsEt.getText().toString().trim();
@@ -53,9 +74,12 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (email.isEmpty() || password.isEmpty()){
                     Toast.makeText(SignUpActivity.this, "All Fields are Required", Toast.LENGTH_SHORT).show();
-                }else if (password.length()<5){
-                    Toast.makeText(SignUpActivity.this, "Password Should Greater then 5 digits", Toast.LENGTH_SHORT).show();
+                }else if (password.length()<=6){
+                    Toast.makeText(SignUpActivity.this, "Password Should Greater then 6 digits", Toast.LENGTH_SHORT).show();
                 }else {
+                    Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
+                    intent.putExtra("placeId",1);
+                    startActivity(intent);
                     // firebase
 
                     auth.createUserWithEmailAndPassword(emailsEt.getText().toString(),passwoEt.getText().toString())
@@ -65,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
                             
                             if (task.isSuccessful()){
 
-                                String notes = auth.getCurrentUser().getUid();
+                                String notes = Objects.requireNonNull(auth.getCurrentUser()).getUid();
                                 DatabaseReference dataRef = reference.child("notes");
                                 HashMap<String,Object> notesdetails = new HashMap<>();
 

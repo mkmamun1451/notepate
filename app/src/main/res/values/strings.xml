@@ -2,4 +2,8 @@
     <string name="app_name">NotePate Application</string>
     <string name="signup"><u><b>SignUp</b></u></string>
     <string name="Title">Title</string>
+    <string name="this_is_yor_notes">This is Yor Notes</string>
+    <string name="todo">TODO</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">cancel</string>
 </resources>

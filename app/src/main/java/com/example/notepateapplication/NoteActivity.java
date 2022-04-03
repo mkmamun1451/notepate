@@ -1,6 +1,7 @@
 package com.example.notepateapplication;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.internal.SafeIterableMap;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -70,7 +73,28 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fbttun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NoteActivity.this, CreateNote.class));
+                AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
+                builder.setTitle("Create a New Notes");
+                builder.setMessage("Are you sure you Create A New Notes?");
+                builder.setIcon(R.drawable.ic_add_24);
+                builder.setCancelable(false);
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(NoteActivity.this,CreateNote.class);
+                                intent.putExtra("placeId",1);
+                                startActivity(intent);
+
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                /*startActivity(new Intent(NoteActivity.this, CreateNote.class));*/
             }
         });
 
@@ -82,6 +106,7 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int position, @NonNull modelclass model) {
 
+
                 ImageView popubutton = noteViewHolder.itemView.findViewById(R.id.menupopbttn);
 
 
@@ -92,7 +117,7 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 noteViewHolder.notecontent.setText(model.getContent());
 
 
-                String docId = adapter.getSnapshots().getSnapshot(1).getId();
+                String docId = adapter.getSnapshots().getSnapshot(0).getId();
 
                 noteViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -103,7 +128,7 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         intent.putExtra("content", model.getContent());
                         intent.putExtra("noetId", docId);
                         view.getContext().startActivity(intent);
-                        /*Toast.makeText(NoteActivity.this, "This is Clicked", Toast.LENGTH_SHORT).show();*/
+                        Toast.makeText(NoteActivity.this, "This is Clicked", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -115,11 +140,36 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                Intent intent = new Intent(NoteActivity.this, EditNoteActivity.class);
+                                /*Intent intent = new Intent(NoteActivity.this, EditNoteActivity.class);
                                 intent.putExtra("title", model.getTitle());
                                 intent.putExtra("content", model.getContent());
                                 intent.putExtra("noetId", docId);
-                                view.getContext().startActivity(intent);
+                                view.getContext().startActivity(intent);*/
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
+                                builder.setTitle("Edit Notes");
+                                builder.setMessage("Are you sure you want to Edit Notes?");
+                                builder.setIcon(R.drawable.ic_adds_4);
+                                builder .setCancelable(false);
+                                builder  .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                Intent intent = new Intent(NoteActivity.this,EditNoteActivity.class);
+                                                /*intent.putExtra("placeId",1);*/
+                                                intent.putExtra("title", model.getTitle());
+                                                intent.putExtra("content", model.getContent());
+                                                intent.putExtra("noetId", docId);
+                                                startActivity(intent);
+
+                                            }
+                                        })
+                                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
                                 return false;
                             }
                         });
@@ -131,12 +181,32 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                                 Dreference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
+                                        builder.setTitle("DELETE!");
+                                        builder.setMessage("Are you sure you want to Delete these Notes?");
+                                        builder.setIcon(R.drawable.ic_delete_24);
+                                        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        NoteActivity.setDialogResult(true);
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        NoteActivity.setDialogResult(false);
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                        AlertDialog alert = builder.create();
+                                        alert.show();
 
                                         Toast.makeText(NoteActivity.this, "This Note is Delete", Toast.LENGTH_SHORT).show();
                                     }
-                                }).addOnFailureListener(new OnFailureListener() {
+                                })
+                            .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
+
                                         Toast.makeText(NoteActivity.this, "Failed to Delete", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -169,6 +239,9 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     }
 
+    private static void setDialogResult(boolean b) {
+
+    }
 
 
     private int getRandomColor() {
@@ -231,9 +304,31 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
         switch (item.getItemId()){
             case R.id.logout:
+                AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
+
+                builder.setTitle("Logout!");
+                builder.setMessage("Are You Sure to Log Out of This Application!");
+                builder.setIcon(R.drawable.ic_login_24);
+                builder.setCancelable(false);
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(NoteActivity.this,MainActivity.class);
+                                intent.putExtra("placeId",1);
+                                startActivity(intent);
+
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
                 auth.signOut();
-                finish();
-                startActivity(new Intent(NoteActivity.this,MainActivity.class));
+                /*finish();*/
+                /*startActivity(new Intent(NoteActivity.this,MainActivity.class));*/
         }
 
         return super.onOptionsItemSelected(item);

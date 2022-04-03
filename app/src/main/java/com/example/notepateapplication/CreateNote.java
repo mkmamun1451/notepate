@@ -1,5 +1,6 @@
 package com.example.notepateapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -57,6 +59,28 @@ public class CreateNote extends AppCompatActivity {
         flobttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CreateNote.this);
+                builder.setTitle("UpDate Notes");
+                builder.setMessage("Are you sure you want to Update these Notes?");
+                builder.setIcon(R.drawable.ic_update_24);
+                builder.setCancelable(false);
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(CreateNote.this,NoteActivity.class);
+                        intent.putExtra("placeId",1);
+                        startActivity(intent);
+
+                    }
+                })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+
 
                 String title = titleEt.getText().toString();
                 String content = contentEt.getText().toString();
@@ -75,8 +99,9 @@ public class CreateNote extends AppCompatActivity {
                     reference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
+
                             Toast.makeText(CreateNote.this, "Note Created Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(CreateNote.this,NoteActivity.class));
+                            /*startActivity(new Intent(CreateNote.this,NoteActivity.class));*/
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

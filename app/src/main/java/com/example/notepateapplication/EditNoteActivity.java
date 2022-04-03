@@ -1,6 +1,8 @@
 package com.example.notepateapplication;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -58,9 +60,28 @@ public class EditNoteActivity extends AppCompatActivity {
         fabttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EditNoteActivity.this,NoteActivity.class);
+                /*Intent intent = new Intent(EditNoteActivity.this,NoteActivity.class);
                 finish();
-                startActivity(intent);
+                startActivity(intent);*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditNoteActivity.this);
+                builder.setMessage("Update This Notes")
+                        .setCancelable(false)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(EditNoteActivity.this,NoteActivity.class);
+                                intent.putExtra("placeId",1);
+                                startActivity(intent);
+
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
                 
                 //Toast.makeText(EditNoteActivity.this, "SaveButton Click", Toast.LENGTH_SHORT).show();
                 

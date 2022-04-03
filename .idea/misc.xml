@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Zip File/My New Project/notepate/app/src/main/res/layout/activity_create_note.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android Zip File/My New Project/notepate/app/src/main/res/layout/activity_edit_note.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android Zip File/My New Project/notepate/app/src/main/res/layout/activity_main.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android Zip File/My New Project/notepate/app/src/main/res/layout/activity_note.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android Zip File/My New Project/notepate/app/src/main/res/layout/activity_note_detils.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android Zip File/My New Project/notepate/app/src/main/res/layout/notes_layout.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android Zip File/My New Project/notepate/app/src/main/res/menu/menu.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/mamun/AndroidStudioProjects/NotePateApplication/app/src/main/res/layout/activity_create_note.xml" value="0.1897810218978102" />
         <entry key="..\:/Users/mamun/AndroidStudioProjects/NotePateApplication/app/src/main/res/layout/activity_edit_note.xml" value="0.20717131474103587" />
         <entry key="..\:/Users/mamun/AndroidStudioProjects/NotePateApplication/app/src/main/res/layout/activity_main.xml" value="0.19923371647509577" />
@@ -12,6 +19,8 @@
         <entry key="..\:/Users/mamun/AndroidStudioProjects/NotePateApplication/app/src/main/res/layout/activity_sign_up.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/mamun/AndroidStudioProjects/NotePateApplication/app/src/main/res/layout/notes_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mamun/AndroidStudioProjects/NotePateApplication/app/src/main/res/menu/menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mamun/AndroidStudioProjects/notepate/app/src/main/res/layout/activity_note.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/mamun/AndroidStudioProjects/notepate/app/src/main/res/layout/notes_layout.xml" value="0.23645833333333333" />
         <entry key="..\:/notepate/app/src/main/res/layout/activity_create_note.xml" value="0.18541666666666667" />
         <entry key="..\:/notepate/app/src/main/res/layout/activity_edit_note.xml" value="0.18541666666666667" />
         <entry key="..\:/notepate/app/src/main/res/layout/activity_main.xml" value="0.28306159420289856" />
