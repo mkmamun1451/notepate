@@ -178,41 +178,47 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
                                 DocumentReference Dreference = firestore.collection("notes").document(user.getUid()).collection("myNotes").document(docId);
-                                Dreference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
 
-                                        /*AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
-                                        builder.setTitle("DELETE!");
-                                        builder.setMessage("Are you sure you want to Delete these Notes?");
-                                        builder.setIcon(R.drawable.ic_delete_24);
-                                        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        NoteActivity.setDialogResult(true);
-                                                        dialog.dismiss();
-                                                    }
-                                                })
-                                                .setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        NoteActivity.setDialogResult(false);
-                                                        dialog.dismiss();
-                                                    }
-                                                });
-                                        AlertDialog alert = builder.create();
-                                        alert.show();
-*/
+                                AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
+                                builder.setTitle("DELETE!");
+                                builder.setMessage("Are you sure you want to Delete these Notes?");
+                                builder.setIcon(R.drawable.ic_delete_24);
+                                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                        Toast.makeText(NoteActivity.this, "This Note is Delete", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                            .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
 
-                                        Toast.makeText(NoteActivity.this, "Failed to Delete", Toast.LENGTH_SHORT).show();
+                                        Dreference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+
+
+
+                                                Toast.makeText(NoteActivity.this, "This Note is Delete", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                                Toast.makeText(NoteActivity.this, "Failed to Delete", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+
+
+
+                                        NoteActivity.setDialogResult(true);
+                                        dialog.dismiss();
                                     }
                                 });
-
+                                builder.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                NoteActivity.setDialogResult(false);
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
 
                                 return false;
                             }
