@@ -44,6 +44,7 @@ public class NoteDetilsActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(NoteDetilsActivity.this);
                 builder.setTitle("Edit Notes");
                 builder.setMessage("Are you sure you want to Edit Your Notes?");
+                builder.setIcon(R.drawable.ic_edit_24);
                 builder.setCancelable(false);
                 builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {

@@ -64,9 +64,12 @@ public class EditNoteActivity extends AppCompatActivity {
                 finish();
                 startActivity(intent);*/
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditNoteActivity.this);
-                builder.setMessage("Update This Notes")
-                        .setCancelable(false)
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+
+                builder.setTitle("Update This Notes");
+                builder.setMessage("Are you sure you want to UpDate Notes?");
+                builder.setIcon(R.drawable.ic_update_24);
+                        builder.setCancelable(false);
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent intent = new Intent(EditNoteActivity.this,NoteActivity.class);
                                 intent.putExtra("placeId",1);

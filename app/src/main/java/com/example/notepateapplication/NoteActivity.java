@@ -181,7 +181,8 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                                 Dreference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
+
+                                        /*AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
                                         builder.setTitle("DELETE!");
                                         builder.setMessage("Are you sure you want to Delete these Notes?");
                                         builder.setIcon(R.drawable.ic_delete_24);
@@ -199,6 +200,7 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
                                                 });
                                         AlertDialog alert = builder.create();
                                         alert.show();
+*/
 
                                         Toast.makeText(NoteActivity.this, "This Note is Delete", Toast.LENGTH_SHORT).show();
                                     }
@@ -349,12 +351,6 @@ public class NoteActivity extends AppCompatActivity implements FirebaseAuth.Auth
             adapter.stopListening();
         }
     }
-
-
-
-
-
-
 
 
 
