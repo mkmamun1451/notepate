@@ -61,7 +61,7 @@ public class CreateNote extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(CreateNote.this);
                 builder.setTitle("UpDate Notes");
-                builder.setMessage("Are you sure you want to Update these Notes?");
+                builder.setMessage("Are you sure you want to Update this Notes?");
                 builder.setIcon(R.drawable.ic_update_24);
                 builder.setCancelable(false);
                 builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
